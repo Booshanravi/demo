@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test API</title>
+</head>
+<body>
+
+<h2>Test Profile API</h2>
+<button onclick="createProfile()">Create Profile</button>
+<button onclick="getProfile()">Get Profile</button>
+
+<pre id="output"></pre>
+
+<script>
+function createProfile() {
+  fetch("http://localhost:5000/api/profile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: "Booshan Ravi",
+      bio: "Full Stack Developer",
+      profilePic: "https://via.placeholder.com/150",
+      skills: ["React", "Node.js", "PostgreSQL"]
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("output").textContent =
+      JSON.stringify(data, null, 2);
+  });
+}
+
+function getProfile() {
+  fetch("http://localhost:5000/api/profile")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("output").textContent =
+      JSON.stringify(data, null, 2);
+  });
+}
+</script>
+
+</body>
+</html>
