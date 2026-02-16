@@ -22,13 +22,14 @@ function ProfilePage() {
     document.body.className = theme;
   }, [theme]);
 
-  const fetchProfile = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/profile/full/1"
-    );
-    setData(res.data);
-    setTheme(res.data.profile.theme);
-  };
+ const fetchProfile = async () => {
+    console.log(import.meta.env.VITE_API_BASE_URL);
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/api/profile/full/1`
+  );
+  setData(res.data);
+  setTheme(res.data.profile.theme);
+};
 
   const endorseSkill = async (id) => {
     await axios.post(
@@ -113,13 +114,10 @@ function ProfilePage() {
     const formData = new FormData();
     formData.append("profilepic", file);
 
-    await axios.post(
-      "http://localhost:5000/api/profile/upload/1",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" }
-      }
-    );
+   await axios.post(
+  `${import.meta.env.VITE_API_BASE_URL}/api/profile/upload/1`,
+  formData
+);
 
     fetchProfile(); // reload profile after upload
   }}
