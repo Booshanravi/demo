@@ -94,10 +94,37 @@ function ProfilePage() {
       <div className="hero-card">
         <div className="hero-left">
           <img
-            src={data.profile.profilepic}
-            alt="profile"
-            className="profile-img"
-          />
+  src={
+    data.profile.profilepic?.startsWith("/uploads")
+      ? "http://localhost:5000" + data.profile.profilepic
+      : data.profile.profilepic
+  }
+  alt="profile"
+  className="profile-img"
+/>
+
+<input
+  type="file"
+  accept="image/*"
+  onChange={async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("profilepic", file);
+
+    await axios.post(
+      "http://localhost:5000/api/profile/upload/1",
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
+    );
+
+    fetchProfile(); // reload profile after upload
+  }}
+/>
+
 
           <div>
             {editBasic ? (
